@@ -51,7 +51,7 @@ public class JWTFilter extends OncePerRequestFilter {
                         "Invalid JWT Token in Bearer Header");
             } else {
                 try {
-                    // Уже с помощью реализованного класса по JWT (там генерация и валидация) валидируем токен.
+                    // Уже с помощью реализованного класса по JWT (там генерация и валидация) обрабатываем токен.
                     String username = jwtUtil.validateTokenAndRetrieveClaim(jwt);
 
                     // Из БД достаём данные, которые принадлежать username.
@@ -59,7 +59,7 @@ public class JWTFilter extends OncePerRequestFilter {
 
 
                     // Здесь уже происходит авторизация нашего пользователя.
-                    // Создаём токен авторизации (содержаться важные поля пользователя).
+                    // Создаём токен (новый) авторизации (содержаться важные поля пользователя).
                     // userDetails - для получения данных в будущем его добавление необходимо тоже.
                     UsernamePasswordAuthenticationToken authToken =
                             new UsernamePasswordAuthenticationToken(
@@ -67,7 +67,7 @@ public class JWTFilter extends OncePerRequestFilter {
                                     userDetails.getPassword(),
                                     userDetails.getAuthorities());
 
-                    // То есть по одним данным берём другие данные и полученный токен ложим в контекст спринг секурити.
+                    // То есть по итогу по одним данным берём другие данные и полученный токен ложим в контекст спринг секурити.
                     if (SecurityContextHolder.getContext().getAuthentication() == null) {
                         SecurityContextHolder.getContext().setAuthentication(authToken);
                     }
