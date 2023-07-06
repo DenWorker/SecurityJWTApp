@@ -54,7 +54,7 @@ public class JWTFilter extends OncePerRequestFilter {
                     // Уже с помощью реализованного класса по JWT (там генерация и валидация) обрабатываем токен.
                     String username = jwtUtil.validateTokenAndRetrieveClaim(jwt);
 
-                    // Из БД достаём данные, которые принадлежать username.
+                    // Из БД достаём данные, которые принадлежат username.
                     UserDetails userDetails = personDetailsService.loadUserByUsername(username);
 
 
